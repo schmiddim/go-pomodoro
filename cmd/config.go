@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/schmiddim/go-pomodoro/libs"
+	"github.com/spf13/viper"
 
 	"github.com/spf13/cobra"
 )
@@ -13,10 +13,9 @@ var configCmd = &cobra.Command{
 	Short: "Print Config",
 	Long:  `Set config with Environment Variables POMODORO_API_KEY and POMODORO_ENDPOINT`,
 	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("POMODORO_API_KEY: " + viper.GetString("POMODORO_API_KEY"))
+		fmt.Println("POMODORO_ENDPOINT: " + viper.GetString("POMODORO_ENDPOINT"))
 
-		r := libs.NewRest()
-
-		fmt.Println(r)
 	},
 }
 

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/viper"
+	"io"
 	"net/http"
 )
 
@@ -15,7 +16,7 @@ type Rest struct {
 
 type accomplishmentPayload struct {
 	HabitId int    `json:"habit_id"`
-	APIKey  string `json:"POMODORO_API_KEY"`
+	APIKey  string `json:"api_key"`
 }
 
 func NewRest() *Rest {
@@ -26,9 +27,9 @@ func NewRest() *Rest {
 
 }
 
-func (r *Rest) SendAccomplishmentRequest(accomplishmentID int) error {
+func (r *Rest) SendAccomplishmentRequest(habitId int) error {
 	payload := accomplishmentPayload{
-		HabitId: accomplishmentID,
+		HabitId: habitId,
 		APIKey:  r.apiKey,
 	}
 
@@ -41,7 +42,12 @@ func (r *Rest) SendAccomplishmentRequest(accomplishmentID int) error {
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+
+		}
+	}(resp.Body)
 
 	if resp.StatusCode != http.StatusCreated {
 		return fmt.Errorf("failed to create accomplishment, status code: %d", resp.StatusCode)

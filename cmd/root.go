@@ -29,6 +29,8 @@ It also integrates with an API to track your accomplishments.`,
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
 		minutes, _ := cmd.Flags().GetInt("time")
+		habitId, _ := cmd.Flags().GetInt("habitId")
+
 		fmt.Printf("Pomodoro started. It will end in %d minutes.\n", minutes)
 		timer := time.NewTimer(time.Duration(minutes) * time.Minute)
 		done := make(chan bool)
@@ -39,7 +41,7 @@ It also integrates with an API to track your accomplishments.`,
 		fmt.Println("Pomodoro ended.")
 
 		r := libs.NewRest()
-		err := r.SendAccomplishmentRequest(13)
+		err := r.SendAccomplishmentRequest(habitId)
 		if err != nil {
 			fmt.Printf("Error: %s\n", err)
 			return
@@ -63,4 +65,9 @@ func init() {
 	viper.SetDefault("POMODORO_ENDPOINT", "http://localhost:8080/api/accomplishments")
 	viper.AutomaticEnv()
 	rootCmd.PersistentFlags().IntP("time", "t", 30, "Set the timer duration in minutes")
+	rootCmd.Flags().IntP("habitId", "i", 16, "Set the habit ID")
+	err := rootCmd.MarkFlagRequired("habitId")
+	if err != nil {
+		return
+	}
 }
