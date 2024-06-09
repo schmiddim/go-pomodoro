@@ -42,9 +42,9 @@ For example:
 - `POMODORO_ENDPOINT`: The endpoint for the accomplishments tracking API.
 
 You can set these environment variables in your shell:
-
+```shell
 export POMODORO_API_KEY=your_api_key export POMODORO_ENDPOINT=http://localhost:8080/api/accomplishments
-
+```
 
 ## Create a quick Release 
 ```shell
