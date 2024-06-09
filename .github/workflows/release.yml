@@ -26,30 +26,10 @@ jobs:
       - name: Test
         run: go test -v ./...
 
-      - name: Install GitHub CLI
-        run: |
-          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
-          sudo apt-add-repository https://cli.github.com/packages
-          sudo apt update
-          sudo apt install gh
-
-      - name: Create Release
-        run: |
-          gh release create ${{ github.ref }} \
-            --title "Release ${{ github.ref }}" \
-            --notes "Release notes for ${{ github.ref }}" \
-            --repo ${{ github.repository }} \
-            --target ${{ github.sha }}
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload the Rodeo binaries
+        uses: svenstaro/upload-release-action@v2
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./go-pomodoro
-          asset_name: go-pomodoro
-          asset_content_type: application/octet-stream
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref }}
+          file: ./go-pomodoro-*
+          file_glob: true
