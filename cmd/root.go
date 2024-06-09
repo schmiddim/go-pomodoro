@@ -17,7 +17,6 @@ func countdown(minutes int, done chan bool) {
 	done <- true
 }
 
-// rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "go-pomodoro",
 	Short: "A Pomodoro timer CLI application",
@@ -50,8 +49,6 @@ It also integrates with an API to track your accomplishments.`,
 	},
 }
 
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	err := rootCmd.Execute()
 	if err != nil {
