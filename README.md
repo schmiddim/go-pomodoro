@@ -45,6 +45,12 @@ You can set these environment variables in your shell:
 
 export POMODORO_API_KEY=your_api_key export POMODORO_ENDPOINT=http://localhost:8080/api/accomplishments
 
+
+## Create a quick Release 
+```shell
+TAG=0.0.10 ;git commit -am "My Message"; git tag  $TAG; git push origin $TAG
+```
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
