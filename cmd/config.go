@@ -8,7 +8,7 @@ import (
 
 var configCmd = &cobra.Command{
 	Use:   "config",
-	Short: "Print Config",
+	Short: "Print Auth + Endpoint Config",
 	Long:  `Set config with export POMODORO_API_KEY="MYSUPERSECRETKEY"; export POMODORO_ENDPOINT="http://mykozukai-endpoint.com/api/accomplishments"`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("POMODORO_API_KEY: " + viper.GetString("POMODORO_API_KEY"))
