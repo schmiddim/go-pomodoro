@@ -24,6 +24,7 @@ jobs:
         run: go build -v -o go-pomodoro
       - name: Test
         run: go test -v ./...
+
       - name: Get Changelog
         id: get_changelog
         run: |
@@ -32,6 +33,7 @@ jobs:
           previous_tag=$(git describe --tags $latest_tag^)
           changelog=$(git log --pretty=format:"%h - %s" $previous_tag..$latest_tag)
           echo "::set-output name=changelog::$changelog"
+
       - name: Upload the Rodeo binaries
         uses: svenstaro/upload-release-action@v2
         with:
