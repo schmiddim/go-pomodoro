@@ -5,7 +5,12 @@ the duration of your work intervals and the application will notify you when it'
 integrates with an API to track your accomplishments.
 
 ## Installation
+### Go install
+```shell
+ go install github.com/schmiddim/go-pomodoro@latest
+```
 
+### Compile
 To install `go-pomodoro`, you need to have Go installed on your machine. Once you have Go installed, you can clone this
 repository and build the application:
 
