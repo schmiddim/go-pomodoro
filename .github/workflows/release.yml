@@ -8,7 +8,7 @@ on:
 jobs:
   build:
 
-    permissions: write-all
+    permissions: write-all  # This is required to upload the release`
     runs-on: ubuntu-latest
     steps:
       - name: Set up Go
@@ -17,8 +17,8 @@ jobs:
           go-version: '1.22.0'
       - name: Check out code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+#        with:
+#          fetch-depth: 0
       - name: Get dependencies
         run: go get -v -t -d ./...
 
@@ -27,6 +27,14 @@ jobs:
 
       - name: Test
         run: go test -v ./...
+      - name: Get Changelog
+        id: get_changelog
+        run: |
+          git fetch --tags
+          latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
+          previous_tag=$(git describe --tags `git rev-list --tags --skip=1 --max-count=1`)
+          changelog=$(git log --pretty=format:"%h - %s" $previous_tag..$latest_tag)
+          echo "::set-output name=changelog::$changelog"
 
       - name: Upload the Rodeo binaries
         uses: svenstaro/upload-release-action@v2
@@ -35,3 +43,4 @@ jobs:
           tag: ${{ github.ref }}
           file: ./go-pomodoro*
           file_glob: true
+          body: ${{ steps.get_changelog.outputs.changelog }}
