@@ -7,7 +7,6 @@ on:
 
 jobs:
   build:
-
     permissions: write-all  # This is required to upload the release`
     runs-on: ubuntu-latest
     steps:
@@ -21,10 +20,8 @@ jobs:
           fetch-depth: 0
       - name: Get dependencies
         run: go get -v -t -d ./...
-
       - name: Build
         run: go build -v -o go-pomodoro
-
       - name: Test
         run: go test -v ./...
       - name: Get Changelog
@@ -32,10 +29,9 @@ jobs:
         run: |
           git fetch --tags
           latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
-          previous_tag=$(git describe --tags `git rev-list --tags --skip=1 --max-count=1`)
+          previous_tag=$(git describe --tags $latest_tag^)
           changelog=$(git log --pretty=format:"%h - %s" $previous_tag..$latest_tag)
           echo "::set-output name=changelog::$changelog"
-
       - name: Upload the Rodeo binaries
         uses: svenstaro/upload-release-action@v2
         with:
