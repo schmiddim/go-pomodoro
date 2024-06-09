@@ -15,8 +15,7 @@ type Rest struct {
 }
 
 type accomplishmentPayload struct {
-	HabitId int    `json:"habit_id"`
-	APIKey  string `json:"api_key"`
+	HabitId int `json:"habit_id"`
 }
 
 func NewRest() *Rest {
@@ -26,11 +25,9 @@ func NewRest() *Rest {
 	}
 
 }
-
 func (r *Rest) SendAccomplishmentRequest(habitId int) error {
 	payload := accomplishmentPayload{
 		HabitId: habitId,
-		APIKey:  r.apiKey,
 	}
 
 	jsonData, err := json.Marshal(payload)
@@ -38,7 +35,16 @@ func (r *Rest) SendAccomplishmentRequest(habitId int) error {
 		return err
 	}
 
-	resp, err := http.Post(r.endpoint, "application/json", bytes.NewBuffer(jsonData))
+	req, err := http.NewRequest("POST", r.endpoint, bytes.NewBuffer(jsonData))
+	if err != nil {
+		return err
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("X-API-KEY", r.apiKey)
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
 	if err != nil {
 		return err
 	}
