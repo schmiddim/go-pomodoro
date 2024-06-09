@@ -20,7 +20,7 @@ go build -o go-pomodoro
 You can run `go-pomodoro` with the following command:
 
 ```shell    
-./go-pomodoro --time=<minutes> --habitId=<habitid></habitid></minutes>
+./go-pomodoro --time=<minutes> --habitId=<habitid>
 ```
 
 Where:
