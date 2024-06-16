@@ -25,7 +25,33 @@ func NewRest() *Rest {
 	}
 
 }
+func (r *Rest) ConfigTest() error {
+	req, err := http.NewRequest("GET", r.endpoint+"/config-test", nil)
+
+	if err != nil {
+		return err
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("X-API-KEY", r.apiKey)
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+
+		}
+	}(resp.Body)
+
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("configtest failed StatusCode: %d", resp.StatusCode)
+	}
+	return nil
+}
 func (r *Rest) SendAccomplishmentRequest(habitId int) error {
+	endpoint := r.endpoint + "/accomplishments"
 	payload := accomplishmentPayload{
 		HabitId: habitId,
 	}
@@ -35,7 +61,7 @@ func (r *Rest) SendAccomplishmentRequest(habitId int) error {
 		return err
 	}
 
-	req, err := http.NewRequest("POST", r.endpoint, bytes.NewBuffer(jsonData))
+	req, err := http.NewRequest("POST", endpoint, bytes.NewBuffer(jsonData))
 	if err != nil {
 		return err
 	}
@@ -56,7 +82,7 @@ func (r *Rest) SendAccomplishmentRequest(habitId int) error {
 	}(resp.Body)
 
 	if resp.StatusCode != http.StatusCreated {
-		return fmt.Errorf("failed to create accomplishment, status code: %d", resp.StatusCode)
+		return fmt.Errorf("failed to create accomplishment, status code: %d, %s", resp.StatusCode, endpoint)
 	}
 	return nil
 }

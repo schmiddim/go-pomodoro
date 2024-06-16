@@ -24,8 +24,6 @@ var rootCmd = &cobra.Command{
 You can set the duration of your work intervals and the application will notify you when it's time to take a break. 
 It also integrates with an API to track your accomplishments.`,
 
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
 		minutes, _ := cmd.Flags().GetInt("time")
 		habitId, _ := cmd.Flags().GetInt("habitId")
