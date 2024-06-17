@@ -24,7 +24,7 @@ jobs:
         run: go get -v -t -d ./...
 
       - name: Build
-        run: go build -v -o go-pomodoro
+        run:  go build -ldflags "-X main.GitTag=$(git describe --tags --abbrev=0)" -o go-pomodoro
 
       - name: Test
         run: go test -v ./...

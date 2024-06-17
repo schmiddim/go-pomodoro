@@ -11,6 +11,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var GitTag string
+
 // GitCommit @see https://icinga.com/blog/2022/05/25/embedding-git-commit-information-in-go-binaries/
 var GitCommit = func() string {
 	if info, ok := debug.ReadBuildInfo(); ok {
@@ -29,6 +31,7 @@ var versionCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Code Version:", GitCommit)
 		fmt.Println("Go Version:", runtime.Version())
+		fmt.Println("Git Tag:", GitTag)
 		fmt.Println("GOOS:", runtime.GOOS)
 	},
 }
