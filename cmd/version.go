@@ -5,10 +5,9 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/spf13/cobra"
 	"runtime"
 	"runtime/debug"
-
-	"github.com/spf13/cobra"
 )
 
 var GitTag string
