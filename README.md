@@ -53,7 +53,7 @@ export POMODORO_API_KEY=your_api_key export POMODORO_ENDPOINT=http://localhost:8
 
 ## Create a quick Release 
 ```shell
-TAG=0.0.10 ;git commit -am "My Message"; git tag  $TAG; git push origin $TAG
+TAG=0.0.15 ;git commit -am "Version Info"; git tag  $TAG; git push origin $TAG
 ```
 
 ## Contributing
