@@ -18,13 +18,16 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 100
 
       - name: Get dependencies
         run: go get -v -t -d ./...
 
+      - name: Check git describe output
+        run: echo $(git describe --tags --abbrev=0 || echo 'n/a')
+
       - name: Build
-        run:  go build -ldflags  "-X github.com/schmiddim/go-pomodoro/cmd.GitTag=$(git describe --tags --abbrev=0)" -o go-pomodoro
+        run:  go build -ldflags  "-X github.com/schmiddim/go-pomodoro/cmd.GitTag=$(git describe --tags --abbrev=0 || echo 'n/a')" -o go-pomodoro
 
       - name: Test
         run: go test -v ./...
